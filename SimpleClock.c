@@ -6,12 +6,15 @@
 #define TIME_STR_LENGTH 100
 #define DATE_STR_LENGTH 300
 #define UPDATE_INTERVAL_MS 1000
+#define FONT_SIZE 72
+#define APPROX_STR_WIDTH_PX 360
 
 ifont *clockFont;
 char timeString[TIME_STR_LENGTH];
 char dateString[DATE_STR_LENGTH];
 struct tm *timeInfo;
 int isFirstUpdate = TRUE;
+int xOffset = 0;
 
 void showClock()
 {
@@ -23,8 +26,8 @@ void showClock()
 	strftime(timeString,TIME_STR_LENGTH,"%H : %M : %S",timeInfo);
 	strftime(dateString,DATE_STR_LENGTH,"%d %b %Y",timeInfo);
 	
-	DrawString(ScreenWidth()/3, 2, timeString);
-	DrawString(ScreenWidth()/3, 100, dateString);
+	DrawString(xOffset, 2, timeString);
+	DrawString(xOffset, 100, dateString);
 	isFirstUpdate ? FullUpdate() : SoftUpdate();
 	
 	SetHardTimer("SIMPLE_CLOCK",showClock,UPDATE_INTERVAL_MS);
@@ -33,7 +36,8 @@ void showClock()
 int simpleClockHandler(int type, int par1, int par2)
 {
 	if (type == EVT_INIT){
-		clockFont = OpenFont("DroidSans",48,1);
+		clockFont = OpenFont("DroidSans",FONT_SIZE,1);
+		xOffset = (ScreenWidth() - APPROX_STR_WIDTH_PX)/2;
 	}
 	if (type == EVT_SHOW){
 		showClock();
