@@ -39,11 +39,11 @@ int simpleClockHandler(int type, int par1, int par2)
 		clockFont = OpenFont("DroidSans",FONT_SIZE,1);
 		xOffset = (ScreenWidth() - APPROX_STR_WIDTH_PX)/2;
 	}
-	if (type == EVT_SHOW){
+	else if (type == EVT_SHOW){
 		showClock();
 		isFirstUpdate = FALSE;
 	}
-	if (type == EVT_KEYPRESS)
+	else if (type == EVT_KEYPRESS)
 		CloseApp();
 	
 	return 0;
